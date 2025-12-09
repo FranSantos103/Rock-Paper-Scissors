@@ -24,7 +24,7 @@ function resetScore(){
     wins: 0,
     losses: 0,
     ties: 0
-    }
+}
 
     winsCounting.innerHTML = `Wins: 0`
     lossesCounting.innerHTML = `Losses: 0`
@@ -38,84 +38,62 @@ function updateScore() {
     lossesCounting.innerHTML = `Losses: ${score.losses}`
     tiesCounting.innerHTML = `Ties: ${score.ties}`
     localStorage.setItem('score', JSON.stringify(score))
+}
 
+function getComputerMove() {
+    let computerMove 
+    let numberGenerated = Math.floor(Math.random() * 9) + 1 // Generate a number bettewen 1 and 9
+    if (numberGenerated >= 1 && numberGenerated <= 3){
+    computerMove = 'Rock'
+    }else if (numberGenerated > 3 && numberGenerated <= 6){
+    computerMove = 'Paper'
+    }else{
+    computerMove = 'Scissors'
+    }
+    return computerMove
+}
+
+function play(playerMove) {
+    let outcome = ""
+    let computerMove = getComputerMove()
+    if(playerMove === computerMove){
+        outcome = 'Tie'
+    }else if(playerMove === 'Rock' && computerMove === 'Scissors'){
+        outcome = 'Win'
+    }else if(playerMove === 'Paper' && computerMove === 'Rock'){
+        outcome = 'Win'
+    }else if(playerMove === 'Scissors' && computerMove === 'Paper'){
+        outcome = 'Win'
+    }else{
+        outcome = 'Lose'
+    }
+
+    if(outcome === 'Win'){
+        score.wins = score.wins + 1
+    }else if(outcome === 'Tie'){
+        score.ties = score.ties + 1
+    }else{
+        score.losses = score.losses + 1
+    }
+
+    result.innerHTML = `You picked ${playerMove}. Computer picked ${computerMove}. ${outcome}
+    <br>
+    <img src="images/${playerMove.toLowerCase()}.png" class="resultImage"> 
+    X 
+    <img src="images/${computerMove.toLowerCase()}.png" class="resultImage"> 
+    `
+    updateScore()
 }
 
 function rock(){
-    let computerMove 
-    let numberGenerated = Math.floor(Math.random() * 9) + 1 // Generate a number bettewen 1 and 9
-    if (numberGenerated >= 1 && numberGenerated <= 3){
-        computerMove = 'Rock'
-        result.innerHTML = `You picked Rock. Computer picked ${computerMove}. Tie. <br>
-        <img src="images/rock.png" alt="" class="resultImage"> X <img src="images/rock.png" alt="" class="resultImage">`
-        score.ties = score.ties + 1
-        localStorage.setItem('score', JSON.stringify(score))
-        updateScore()
-    } else if (numberGenerated > 3 && numberGenerated <= 6){
-        computerMove = 'Paper'
-        result.innerHTML = `You picked Rock. Computer picked ${computerMove}. You lose. <br>
-        <img src="images/rock.png" alt="" class="resultImage"> X <img src="images/paper.png" alt="" class="resultImage">`
-        score.losses = score.losses + 1
-        localStorage.setItem('score', JSON.stringify(score))
-       updateScore()
-    } else{
-        computerMove = 'Scissors'
-        result.innerHTML = `You picked Rock. Computer picked ${computerMove}. You win. <br>
-        <img src="images/rock.png" alt="" class="resultImage"> X <img src="images/scissors.png" alt="" class="resultImage">`
-        score.wins = score.wins + 1
-        localStorage.setItem('score', JSON.stringify(score))
-        updateScore()
-    }
+    play("Rock")
 }
 
 function paper(){
-    let computerMove 
-    let numberGenerated = Math.floor(Math.random() * 9) + 1 // Generate a number bettewen 1 and 9
-    if (numberGenerated >= 1 && numberGenerated <= 3){
-        computerMove = 'Rock'
-        result.innerHTML = `You picked Paper. Computer picked ${computerMove}. You win.
-        <br> <img src="images/paper.png" alt="" class="resultImage"> X <img src="images/rock.png" alt="" class="resultImage">`
-        score.wins = score.wins + 1
-        localStorage.setItem('score', JSON.stringify(score))
-        updateScore()
-    } else if (numberGenerated > 3 && numberGenerated <= 6){
-        computerMove = 'Paper'
-        result.innerHTML = `You picked Paper. Computer picked ${computerMove}. Tie. <br>
-        <img src="images/paper.png" alt="" class="resultImage"> X <img src="images/paper.png" alt="" class="resultImage">`
-        score.ties = score.ties + 1
-        localStorage.setItem('score', JSON.stringify(score))
-        updateScore()
-    } else{
-        computerMove = 'Scissors'
-        result.innerHTML = `You picked Paper. Computer picked ${computerMove}. You lose. <br> 
-        <img src="images/paper.png" alt="" class="resultImage"> X <img src="images/scissors.png" alt="" class="resultImage">`
-        score.losses = score.losses + 1
-        localStorage.setItem('score', JSON.stringify(score))
-        updateScore()
-    }
+    play("Paper")
 }
 
 function scissors(){
-    let computerMove 
-    let numberGenerated = Math.floor(Math.random() * 9) + 1 // Generate a number bettewen 1 and 9
-    if (numberGenerated >= 1 && numberGenerated <= 3){
-        computerMove = 'Rock'
-        result.innerHTML = `You picked Scissors. Computer picked ${computerMove}. You lose. <br> <img src="images/scissors.png" alt="" class="resultImage"> X <img src="images/rock.png" alt="" class="resultImage">`
-        score.losses = score.losses + 1
-        localStorage.setItem('score', JSON.stringify(score))
-        updateScore()
-    } else if (numberGenerated > 3 && numberGenerated <= 6){
-        computerMove = 'Paper'
-        result.innerHTML = `You picked Scissors. Computer picked ${computerMove}. You win. <br> <img src="images/scissors.png" alt="" class="resultImage"> X <img src="images/paper.png" alt="" class="resultImage">`
-        score.wins = score.wins + 1
-        localStorage.setItem('score', JSON.stringify(score))
-        updateScore()
-    } else{
-        computerMove = 'Scissors'
-        result.innerHTML = `You picked Scissors. Computer picked ${computerMove}. Tie. <br> <img src="images/scissors.png" alt="" class="resultImage"> X <img src="images/scissors.png" alt="" class="resultImage">`
-        score.ties = score.ties + 1
-        localStorage.setItem('score', JSON.stringify(score))
-        updateScore()
-    }
+    play("Scissors")
 }
 
